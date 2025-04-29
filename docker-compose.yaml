@@ -8,3 +8,17 @@ services:
             POSTGRES_DB: essentask_db
         ports:
             - 5432:5432
+    web:
+        build: .
+        restart: always
+        ports:
+            - 8080:8080
+        environment:
+            DSN: "host=db port=5432 user=surya password=1234 dbname=essentask_db sslmode=disable"
+        depends_on:
+            - db
+        develop:
+            watch:
+                - path: .
+                  action: rebuild
+                  target: .
