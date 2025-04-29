@@ -4,9 +4,17 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/suryasaputra2016/essentask/config"
 )
 
 func main() {
+	db, err := config.OpenPostgres()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
 	router := http.NewServeMux()
 	router.HandleFunc("/", handler)
 
