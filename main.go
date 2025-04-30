@@ -16,6 +16,11 @@ func main() {
 	}
 	defer db.Close()
 
+	err = config.PrepareTables(db)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	router := http.NewServeMux()
 	router.HandleFunc("/", handler)
 
