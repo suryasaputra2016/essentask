@@ -3,18 +3,23 @@ services:
         image: postgres
         restart: always
         environment:
-            POSTGRES_USER: surya
-            POSTGRES_PASSWORD: 1234
-            POSTGRES_DB: essentask_db
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB}
         ports:
-            - 5432:5432
+            - ${POSTGRES_PORT}:${POSTGRES_PORT}
     web:
         build: .
         restart: always
         ports:
-            - 8080:8080
+            - ${WEB_PORT}:${WEB_PORT}
         environment:
-            DSN: "host=db port=5432 user=surya password=1234 dbname=essentask_db sslmode=disable"
+            POSTGRES_HOST: ${POSTGRES_HOST}
+            POSTGRES_PORT: ${POSTGRES_PORT}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB}
+            WEB_PORT: ${WEB_PORT}
         depends_on:
             - db
         develop:

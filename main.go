@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/suryasaputra2016/essentask/config"
 )
@@ -18,10 +19,11 @@ func main() {
 	router := http.NewServeMux()
 	router.HandleFunc("/", handler)
 
-	println("serving at 8080...")
-	log.Fatal(http.ListenAndServe(":8080", router))
+	port := os.Getenv("WEB_PORT")
+	log.Printf("serving at %s...", port)
+	log.Fatal(http.ListenAndServe(":"+port, router))
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "hello world")
+	fmt.Fprint(w, "Hello, world!!")
 }
