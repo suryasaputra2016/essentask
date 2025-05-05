@@ -7,6 +7,8 @@ import (
 	"os"
 
 	"github.com/suryasaputra2016/essentask/config"
+	"github.com/suryasaputra2016/essentask/handlers"
+	"github.com/suryasaputra2016/essentask/repo"
 )
 
 func main() {
@@ -21,8 +23,14 @@ func main() {
 		log.Fatal(err)
 	}
 
+	userRepo := repo.NewuserRepo(db)
+	userHandler := handlers.NewUserHandler(userRepo)
+
 	router := http.NewServeMux()
 	router.HandleFunc("/", handler)
+	router.HandleFunc("/register", userHandler.Register)
+	// router.HandleFunc("/login", userHandler.Login)
+	// router.HandleFunc("/logout", userHandler.Logout)
 
 	port := os.Getenv("WEB_PORT")
 	log.Printf("serving at %s...", port)
